@@ -1,0 +1,22 @@
+{
+  "name": "fragmaDataAssignment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon ./index.js",
+    "start:prod": "SET NODE_ENV=production & nodemon ./index.js",
+    "start:dev": "SET NODE_ENV=development & nodemon ./index.js"
+  },
+  "keywords": [],
+  "author": "Harshavardhan H S",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  },
+  "dependencies": {
+    "config": "^3.3.3",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1"
+  }
+}
