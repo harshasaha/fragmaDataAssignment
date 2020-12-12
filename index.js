@@ -5,6 +5,7 @@
  */
 const express = require("express");
 const path = require("path");
+const route = require('./routes/routes');
 
 /**
  * App Variables
@@ -20,8 +21,11 @@ const port = config.port;
 /**
  * Routes Definitions
  */
-app.get("/", (req, res) => {
-    res.status(200).send("started");
+app.use('/', route);
+
+app.use('/', function(req, res){
+	res.statusCode = 500; //send the appropriate status code
+    res.json({status:false, message:"Requested method not found."});
 });
 
 /**
@@ -29,6 +33,6 @@ app.get("/", (req, res) => {
  */
 app.listen(port, () => {
     console.log(`Listening to requests on ${config.host}${port}`);
-    
+
     console.log('secure data '+config.secureData)
 });
