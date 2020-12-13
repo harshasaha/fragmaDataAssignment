@@ -21,8 +21,6 @@ app.use(passport.initialize());
  *  App Configuration
  */
 var config = require('./config/'+(process.env.NODE_ENV || 'default').trim());
-const port = config.port;
-
 
 //DATABASE
 const models = require("./models");
@@ -46,6 +44,6 @@ app.use('/', function(req, res){
 /**
  * Server Activation
  */
-app.listen(port, () => {
-    console.log(`Listening to requests on ${config.host}${port}`);
+app.listen(process.env.PORT, () => {
+    console.log(`Listening to requests on ${config.host}${process.env.PORT}`);
 });

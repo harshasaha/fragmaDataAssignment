@@ -4,7 +4,6 @@ const callbackAndPromise = require('../controller/callbackAndPromise.controller'
 const user = require('../controller/user.controller');
 const passport = require('passport');
 
-// require('../middleware/passport')(passport);
 require('../middleware/passport')(passport)
 
 router.get("/", (req, res, next) => {
