@@ -38,19 +38,19 @@ module.exports.register = async function (req, res) {
 
 // login user
 module.exports.login = async function (req, res) {
-    const userData = req.body;
-    if(!userData.email) return ReE(res, 'Please enter Email', 422);
-    if(!userData.password) return ReE(res, 'Please enter password', 422);
+    const userInfo = req.body;
+    if(!userInfo.email) return ReE(res, 'Please enter Email', 422);
+    if(!userInfo.password) return ReE(res, 'Please enter password', 422);
 
     // check password and login
-    [err, userData] = await to(userService.login(userData.email, userData.password));
+    [err, userData] = await to(userService.login(userInfo.email, userInfo.password));
     if (err) return ReE(res, err, 422);
 
     if(userData){
         let userRes = userData.toJSON();
-        
+
         // get jwt bearer token
-        [err, token] = await to(user.getJWT());
+        [err, token] = await to(userData.getJWT());
         if(err) return ReE(res, err, 422);
         if(token){
             userRes.bearer_token = token;
