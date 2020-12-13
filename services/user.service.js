@@ -18,11 +18,11 @@ module.exports.registerUser = async function (userData) {
 module.exports.login = async function (email, password) {
     let userRes;
     [err, userRes] = await to(user.findOne({ where: { email: email } }));
-    if (err) throw err;
+    if (err) TE(err);
     if(!userRes){
         return ;
     }
     [err, userRes] = await to(userRes.comparePassword(password));
-    if (err) throw err;
+    if (err) TE(err);
     return userRes;
 }
