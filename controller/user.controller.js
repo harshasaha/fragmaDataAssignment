@@ -11,10 +11,11 @@ module.exports.register = async function (req, res) {
     if(!body.email) return ReE(res, 'Email not defined', 422);
     if(!body.password) return ReE(res, 'password not defined', 422);
 
-    [err, user] = await to(userService.checkUserExists(body.email));
+    // check if you exists or not
+    [err, userRes] = await to(userService.checkUserExists(body.email));
     if(err) return ReE(res, err, 422);
 
-    if(!user){
+    if(!userRes){
 
         const userJson = {
             first_name: body.first_name,
@@ -23,11 +24,11 @@ module.exports.register = async function (req, res) {
             password: sha1(body.password),
             email: body.email
          };
-
-        [err, user] = await to(userService.registerUser(userJson));
+        //  register user if user not exists
+        [err, userResult] = await to(userService.registerUser(userJson));
         if (err) return ReE(res, err, 422);
 
-        return ReS(res, 'Student Register successfully.', user);
+        return ReS(res, 'Student Register successfully.', userResult);
 
     } else {
         return ReE(res, 'Already exist. please try to login.', 422);
@@ -41,12 +42,14 @@ module.exports.login = async function (req, res) {
     if(!userData.email) return ReE(res, 'Please enter Email', 422);
     if(!userData.password) return ReE(res, 'Please enter password', 422);
 
-    [err, user] = await to(userService.login(userData.email, userData.password));
+    // check password and login
+    [err, userData] = await to(userService.login(userData.email, userData.password));
     if (err) return ReE(res, err, 422);
 
-    if(user){
-        let userRes = user.toJSON();
-
+    if(userData){
+        let userRes = userData.toJSON();
+        
+        // get jwt bearer token
         [err, token] = await to(user.getJWT());
         if(err) return ReE(res, err, 422);
         if(token){

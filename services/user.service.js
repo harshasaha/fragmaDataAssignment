@@ -1,17 +1,17 @@
 const { user } = require('../models');
-const { to, ReE, ReS } =  require('./util.service');
+const { to, ReE, ReS, TE } =  require('./util.service');
 
 module.exports.checkUserExists = async function (email) {
 
     [err, userRes] = await to(user.findOne({ where: { email: email } }));
-    if (err) throw err;
+    if (err) TE(err);
     return userRes;
 }
 
 module.exports.registerUser = async function (userData) {
 
     [err, userRes] = await to(user.create(userData));
-    if (err) throw err;
+    if (err) TE(err);
     return userRes;
 }
 
